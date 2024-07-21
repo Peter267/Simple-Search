@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="icon" href="https://export-download.canva.cn/61xHY/DAGLAc61xHY/1/0/0001-2247730525572835558.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAUMDQBKPSEKNX37XG%2F20240715%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-Date=20240715T030957Z&X-Amz-Expires=27406&X-Amz-Signature=e4a68d68dfd38c9fd8623c509639814b4745541bcd2b817716eba4747a3330b1&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%2A%3DUTF-8%27%27%25E6%259C%25AA%25E5%2591%25BD%25E5%2590%258D%25E7%259A%2584%25E8%25AE%25BE%25E8%25AE%25A1.png&response-expires=Mon%2C%2015%20Jul%202024%2010%3A46%3A43%20GMT" type="image/webp">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        }
+        .search-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+        .time {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .logo {
+            display: inline-block;
+            font-size: 3em;
+            font-weight: bold;
+            color: #007BFF;
+            background-color: #fff;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            margin-bottom: 30px;
+        }
+        .logo:hover {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .search-container h1 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            color: #333;
+        }
+        .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .search-box input[type="text"] {
+            width: 600px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 30px 0 0 30px;
+            outline: none;
+            font-size: 1.5em;
+            transition: border-color 0.3s;
+        }
+        .search-box input[type="text"]:focus {
+            border-color: #007BFF;
+        }
+        .search-box button {
+            padding: 15px 30px;
+            border: 2px solid #007BFF;
+            border-radius: 0 30px 30px 0;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .search-box button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        .search-engine {
+            margin-bottom: 30px;
+        }
+        .search-engine select {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-size: 1.5em;
+            transition: border-color 0.3s;
+        }
+        .search-engine select:focus {
+            border-color: #007BFF;
+        }
+        .settings-button {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+        .settings-button button {
+            padding: 10px 20px;
+            border: 2px solid #007BFF;
+            border-radius: 15px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .settings-button button:hover {
+            background-color: #0056b3;
+        }
+        .settings-dropdown {
+            display: none;
+            position: absolute;
+            bottom: 60px;
+            left: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .settings-dropdown a, .settings-dropdown label {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #007BFF;
+            cursor: pointer;
+        }
+        .settings-dropdown a:hover, .settings-dropdown label:hover {
+            background-color: #f0f0f0;
+        }
+        .settings-dropdown select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .settings-dropdown select:focus {
+            border-color: #007BFF;
+        }
+    </style>
+    <script>
+        const translations = {
+            en: {
+                logo: "Simple Search",
+                title: "Search",
+                placeholder: "Enter your search query...",
+                go: "Go",
+                settings: "Settings",
+                switchLanguage: "Switch Language",
+                feedback: "Product Feedback",
+                footer: "&copy; 2024 Wu Jingbo",
+                google: "Google",
+                bing: "Bing",
+                baidu: "Baidu",
+                fso: "F搜",
+                yandex: "Yandex",
+                duckduckgo: "DuckDuckGo",
+                sogou: "Sogou",
+                s360: "360 Search"
+            },
+            zh: {
+                logo: "简单搜索",
+                title: "搜索",
+                placeholder: "输入您的搜索查询...",
+                go: "搜索",
+                settings: "设置",
+                switchLanguage: "切换语言",
+                feedback: "产品反馈",
+                footer: "&copy; 2024 武敬博",
+                google: "谷歌",
+                bing: "必应",
+                baidu: "百度",
+                fso: "F搜",
+                yandex: "Yandex",
+                duckduckgo: "DuckDuckGo",
+                sogou: "搜狗",
+                s360: "360搜索"
+            },
+            ja: {
+                logo: "シンプル検索",
+                title: "検索",
+                placeholder: "検索クエリを入力してください...",
+                go: "検索",
+                settings: "設定",
+                switchLanguage: "言語を切り替える",
+                feedback: "製品フィードバック",
+                footer: "&copy; 2024 武敬博",
+                google: "グーグル",
+                bing: "ビング",
+                baidu: "百度",
+                fso: "F搜",
+                yandex: "Yandex",
+                duckduckgo: "DuckDuckGo",
+                sogou: "Sogou",
+                s360: "360 Search"
+            }
+        };
+
+        function setLanguage(lang) {
+            const elements = {
+                logo: document.querySelector(".logo"),
+                title: document.querySelector("h1"),
+                placeholder: document.querySelector("input[name='q']"),
+                go: document.querySelector(".search-box button"),
+                settings: document.querySelector(".settings-button button"),
+                switchLanguage: document.querySelector(".settings-dropdown label"),
+                feedback: document.querySelector(".settings-dropdown a"),
+                footer: document.querySelector(".footer"),
+                google: document.querySelector("option[value='google']"),
+                bing: document.querySelector("option[value='bing']"),
+                baidu: document.querySelector("option[value='baidu']"),
+                fso: document.querySelector("option[value='fso']"),
+                yandex: document.querySelector("option[value='yandex']"),
+                duckduckgo: document.querySelector("option[value='duckduckgo']"),
+                sogou: document.querySelector("option[value='sogou']"),
+                s360: document.querySelector("option[value='s360']")
+            };
+
+            elements.logo.textContent = translations[lang].logo;
+            elements.title.textContent = translations[lang].title;
+            elements.placeholder.placeholder = translations[lang].placeholder;
+            elements.go.textContent = translations[lang].go;
+            elements.settings.textContent = translations[lang].settings;
+            elements.switchLanguage.textContent = translations[lang].switchLanguage;
+            elements.feedback.textContent = translations[lang].feedback;
+            elements.footer.innerHTML = translations[lang].footer;
+            elements.google.textContent = translations[lang].google;
+            elements.bing.textContent = translations[lang].bing;
+            elements.baidu.textContent = translations[lang].baidu;
+            elements.fso.textContent = translations[lang].fso;
+            elements.yandex.textContent = translations[lang].yandex;
+            elements.duckduckgo.textContent = translations[lang].duckduckgo;
+            elements.sogou.textContent = translations[lang].sogou;
+            elements.s360.textContent = translations[lang].s360;
+
+            const languageSwitcher = document.querySelector(".settings-dropdown select");
+            languageSwitcher.innerHTML = '';
+            if (lang !== 'en') languageSwitcher.innerHTML += '<option value="en">English</option>';
+            if (lang !== 'zh') languageSwitcher.innerHTML += '<option value="zh">简体中文</option>';
+            if (lang !== 'ja') languageSwitcher.innerHTML += '<option value="ja">日本語</option>';
+            languageSwitcher.value = lang;
+
+            localStorage.setItem('preferredLanguage', lang); // Save the selected language
+        }
+
+        function setSearchEngine(form) {
+            const engine = document.getElementById('engine').value;
+            const query = form.q.value;
+            let url = '';
+            if (engine === 'google') {
+                url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            } else if (engine === 'bing') {
+                url = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+            } else if (engine === 'baidu') {
+                url = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`;
+            } else if (engine === 'fso') {
+                url = `https://fsoufsou.com/search?q=${encodeURIComponent(query)}`;
+            } else if (engine === 'yandex') {
+                url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+            } else if (engine === 'duckduckgo') {
+                url = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+            } else if (engine === 'sogou') {
+                url = `https://www.sogou.com/web?query=${encodeURIComponent(query)}`;
+            } else if (engine === 's360') {
+                url = `https://www.so.com/s?q=${encodeURIComponent(query)}`;
+            }
+            window.location.href = url;
+            return false;
+        }
+
+        function toggleSettings() {
+            const dropdown = document.querySelector('.settings-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function updateTime() {
+            const timeElement = document.querySelector('.time');
+            const now = new Date();
+            const formattedTime = now.toLocaleTimeString();
+            timeElement.textContent = formattedTime;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const languageSwitcher = document.querySelector(".settings-dropdown select");
+            languageSwitcher.addEventListener("change", () => {
+                setLanguage(languageSwitcher.value);
+            });
+
+            const settingsButton = document.querySelector('.settings-button button');
+            settingsButton.addEventListener('click', toggleSettings);
+
+            // Load the preferred language from localStorage or default to 'en'
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            setLanguage(preferredLanguage);
+
+            // Update time every second
+            updateTime();
+            setInterval(updateTime, 1000);
+        });
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?73e4ad7b67de37110190bdcd405428e3";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js?id=3IkShiWZpUnnmEBc&ck=3IkShiWZpUnnmEBc&autoTrack=true"></script>
+</head>
+<body>
+    <div class="settings-button">
+        <button>Settings</button>
+        <div class="settings-dropdown">
+            <label for="language">Switch Language</label>
+            <select id="language"></select>
+            <a href="https://txc.qq.com/products/657050" target="_blank">Product Feedback</a>
+        </div>
+    </div>
+    <div class="search-container">
+        <div class="time"></div> <!-- 时间显示组件 -->
+        <a href="#" class="logo">Simple Search</a>
+        <h1>Search</h1>
+        <form onsubmit="return setSearchEngine(this)">
+            <div class="search-engine">
+                <select id="engine">
+                    <option value="google">Google</option>
+                    <option value="bing">Bing</option>
+                    <option value="baidu">百度</option>
+                    <option value="fso">F搜</option>
+                    <option value="yandex">Yandex</option>
+                    <option value="duckduckgo">DuckDuckGo</option>
+                    <option value="sogou">搜狗</option>
+                    <option value="s360">360搜索</option>
+                </select>
+            </div>
+            <div class="search-box">
+                <input type="text" name="q" placeholder="Enter your search query...">
+                <button type="submit">Go</button>
+            </div>
+        </form>
+        <div class="footer">
+            &copy; 2024 武敬博   服务器：热铁盒
+        </div>
+    </div>
+</body>
+</html>
